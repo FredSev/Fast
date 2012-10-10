@@ -36,8 +36,8 @@ public class Employe {
     }
     
     private int numeroEmploye;
-    private int totalTempsTele;
-    private int totalTempsBureau;
+    private int totalTempsTele = 0;
+    private int totalTempsBureau = 0;
     private int tempsBureauParJours[] = {0,0,0,0,0,0,0};
     
 }
