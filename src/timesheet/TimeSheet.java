@@ -17,7 +17,7 @@ public class TimeSheet {
      */
     public static void main(String[] args) {
         LectureFichierJSON lecteur = null;
-        
+
         try {
             lecteur = new LectureFichierJSON(args[0]);
         } catch (ArrayIndexOutOfBoundsException ex) {
@@ -27,12 +27,12 @@ public class TimeSheet {
         } catch (IOException ex) {
             Logger.getLogger(TimeSheet.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        ArrayList<Employe> test = lecteur.getListeEmployes();
-        for (Employe employe : lecteur.getListeEmployes()) {
-            System.out.println(employe);
+
+        ArrayList<Employe> employes = lecteur.getListeEmployes();
+        ArrayList<String> erreurs = VerificateurErreur.fetchErreurs(employes.get(0));
+        for (String erreur : erreurs) {
+            System.out.println(erreur);
         }
-        
-        
+
     }
 }
