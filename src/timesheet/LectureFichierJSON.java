@@ -48,9 +48,8 @@ public class LectureFichierJSON {
         JSONObject racine = (JSONObject) JSONSerializer.toJSON(contenuFichier);
         
         //int nbEmployes = racine.size();
-        //System.out.println(racine.size()); racine.size() = 8...
         //for (int e = 0; e < nbEmployes; e++) {
-        //JSONObject employeJSON = racine.getJSONObject(e);
+            //JSONObject employeJSON = racine.getJSONObject(e);
             JSONObject employeJSON = racine;
             
             int noEmploye = employeJSON.getInt("numero_employe");
