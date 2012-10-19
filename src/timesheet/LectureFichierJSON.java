@@ -47,10 +47,10 @@ public class LectureFichierJSON {
     public ArrayList<Employe> getListeEmployes() {
         JSONObject racine = (JSONObject) JSONSerializer.toJSON(contenuFichier);
         
-        int nbEmployes = racine.size();
-        
-        for (int e = 0; e < nbEmployes; e++) {
-            //JSONObject employeJSON = racine.getJSONObject(e);
+        //int nbEmployes = racine.size();
+        //System.out.println(racine.size()); racine.size() = 8...
+        //for (int e = 0; e < nbEmployes; e++) {
+        //JSONObject employeJSON = racine.getJSONObject(e);
             JSONObject employeJSON = racine;
             
             int noEmploye = employeJSON.getInt("numero_employe");
@@ -60,7 +60,7 @@ public class LectureFichierJSON {
             informerEmploye(employe, employeJSON);
             
             listeEmployes.add(employe);
-        }
+        //}
         
         return listeEmployes;
     }

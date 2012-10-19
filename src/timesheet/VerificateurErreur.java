@@ -39,7 +39,7 @@ public class VerificateurErreur {
 
     public static boolean verifierMaxHeuresTeletravailSemaine(Employe employe){
         if(employe.isAdmin()){
-            return employe.getTotalTempsBureau() <= MAX_ADMIN_HEURES_TELE_SEMAINE;
+            return employe.getTotalTempsTele() <= MAX_ADMIN_HEURES_TELE_SEMAINE;
         } else {
             return true;
         }
@@ -48,8 +48,7 @@ public class VerificateurErreur {
     public static boolean verifierMinHeuresBureauJour(Integer heures, Integer type){
         return heures > MIN_HEURES_BUREAU_JOUR[type];
     }
-
-
+    
     final static Integer[] MIN_HEURES_BUREAU_SEMAINE = {38*60, 36*60};
     final static Integer[] MIN_HEURES_BUREAU_JOUR = {6*60, 4*60};
     final static Integer MAX_HEURES_BUREAU_SEMAINE = 43*60;
@@ -64,5 +63,4 @@ public class VerificateurErreur {
             + "nombre d'heures minimal au bureau.";
     final static String[] JOURS_SEMAINE = {"Lundi", "Mardi", "Mercredi", "Jeudi",
             "Vendredi"};
-
 }

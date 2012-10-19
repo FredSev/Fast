@@ -30,9 +30,12 @@ public class TimeSheet {
 
         ArrayList<Employe> employes = lecteur.getListeEmployes();
         ArrayList<String> erreurs = VerificateurErreur.fetchErreurs(employes.get(0));
-        for (String erreur : erreurs) {
-            System.out.println(erreur);
+        EcritureFichierJSON ecriture = new EcritureFichierJSON(args[1]);
+        
+        try{
+            ecriture.ecritureEmploye(erreurs);
+        } catch(IOException ex) {
+            Logger.getLogger(TimeSheet.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 }
