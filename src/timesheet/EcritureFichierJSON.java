@@ -12,26 +12,25 @@ import net.sf.json.JSONArray;
  */
 public class EcritureFichierJSON {
     private String cheminFichier = "";
-    
+
     public EcritureFichierJSON() {
         this.cheminFichier = "";
     }
-    
+
     public EcritureFichierJSON(String cheminFichier){
         this.cheminFichier = cheminFichier;
     }
-    
+
     public void ecritureEmploye(ArrayList<String> erreurs) throws IOException{
-        
+
         JSONArray listeDesErreurs = new JSONArray();
    
-        Iterator iterationErreurs = erreurs.iterator();
-        while (iterationErreurs.hasNext()) {
-            listeDesErreurs.add(iterationErreurs.next());
+        for (String erreur : erreurs) {
+            listeDesErreurs.add(erreur);
         }
-             
+
         FileWriter fichierSortie = new FileWriter(cheminFichier);
 	listeDesErreurs.write(fichierSortie);
-	fichierSortie.close(); 
+	fichierSortie.close();
     }
 }
