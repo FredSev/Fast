@@ -1,11 +1,11 @@
 package timesheet;
 
-public class Employe {
+public class Employee {
 
-    public Employe() {
+    public Employee() {
     }
 
-    public Employe(int numeroEmploye) {
+    public Employee(int numeroEmploye) {
         setNumeroEmploye(numeroEmploye);
     }
 

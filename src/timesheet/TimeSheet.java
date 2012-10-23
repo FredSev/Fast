@@ -8,18 +8,21 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author sirzerator
+ * @author Frederic Sevillano SEVF26078308
+ * @author Emile Plourde-Lavoie PLOE23048908
+ * @author Guillaume Auger
  */
 public class TimeSheet {
+    
+    static JSONFileReader reader = null;
+    static JSONFileWriter writer = null;
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        LectureFichierJSON lecteur = null;
-
         try {
-            lecteur = new LectureFichierJSON(args[0]);
+            reader = new JSONFileReader(args[0]);
         } catch (ArrayIndexOutOfBoundsException ex) {
             Logger.getLogger(TimeSheet.class.getName()).log(Level.SEVERE, "Pas de fichier d'entrée spécifié.", ex);
             System.exit(1);
@@ -29,18 +32,16 @@ public class TimeSheet {
             Logger.getLogger(TimeSheet.class.getName()).log(Level.SEVERE, "Erreur d'entrée/sortie.", ex);
         }
 
-        ArrayList<Employe> employes = lecteur.getListeEmployes();
-        ArrayList<String> erreurs = VerificateurErreur.fetchErreurs(employes.get(0));
-        EcritureFichierJSON ecriture = null;
+        ArrayList<String> errors = VerificateurErreur.fetchErreurs(reader.getEmployee());
         try {
-            ecriture = new EcritureFichierJSON(args[1]);
+            writer = new JSONFileWriter(args[1]);
         } catch (ArrayIndexOutOfBoundsException ex) {
             Logger.getLogger(TimeSheet.class.getName()).log(Level.SEVERE, "Pas de fichier de sortie spécifié.", ex);
             System.exit(1);
         }
         
         try{
-            ecriture.ecritureEmploye(erreurs);
+            writer.writeErrors(errors);
         } catch(IOException ex) {
             Logger.getLogger(TimeSheet.class.getName()).log(Level.SEVERE, "Erreur d'entrée/sortie.", ex);
         }

@@ -8,7 +8,7 @@ import java.util.ArrayList;
  */
 public class VerificateurErreur {
 
-    public static ArrayList<String> fetchErreurs(Employe employe){
+    public static ArrayList<String> fetchErreurs(Employee employe){
 
         ArrayList<String> erreurs = new ArrayList();
         if( !verifierMinHeuresBureauSemaine(employe) ){
@@ -29,15 +29,15 @@ public class VerificateurErreur {
         return erreurs;
     }
 
-    public static boolean verifierMinHeuresBureauSemaine(Employe employe){
+    public static boolean verifierMinHeuresBureauSemaine(Employee employe){
         return employe.getTotalTempsBureau() >= MIN_HEURES_BUREAU_SEMAINE[employe.getTypeEmploye()];
     }
 
-    public static boolean verifierMaxHeuresBureauSemaine(Employe employe){
+    public static boolean verifierMaxHeuresBureauSemaine(Employee employe){
         return employe.getTotalTempsBureau() <= MAX_HEURES_BUREAU_SEMAINE;
     }
 
-    public static boolean verifierMaxHeuresTeletravailSemaine(Employe employe){
+    public static boolean verifierMaxHeuresTeletravailSemaine(Employee employe){
         if(employe.isAdmin()){
             return employe.getTotalTempsTele() <= MAX_ADMIN_HEURES_TELE_SEMAINE;
         } else {
