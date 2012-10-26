@@ -13,7 +13,7 @@ import java.util.logging.Logger;
  * @author Guillaume Auger
  */
 public class TimeSheet {
-    
+
     static JSONFileReader reader = null;
     static JSONFileWriter writer = null;
 
@@ -32,14 +32,14 @@ public class TimeSheet {
             Logger.getLogger(TimeSheet.class.getName()).log(Level.SEVERE, "Erreur d'entrée/sortie.", ex);
         }
 
-        ArrayList<String> errors = VerificateurErreur.fetchErreurs(reader.getEmployee());
+        ArrayList<String> errors = ErrorValidator.fetchErrors(reader.getEmployee());
         try {
             writer = new JSONFileWriter(args[1]);
         } catch (ArrayIndexOutOfBoundsException ex) {
             Logger.getLogger(TimeSheet.class.getName()).log(Level.SEVERE, "Pas de fichier de sortie spécifié.", ex);
             System.exit(1);
         }
-        
+
         try{
             writer.writeErrors(errors);
         } catch(IOException ex) {
