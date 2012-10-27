@@ -83,7 +83,8 @@ public class Employee {
     private int totalTempsBureau = 0;
     private int tempsBureauParJours[] = {0,0,0,0,0,0,0};
     private int typeEmploye;
-    public final int NORMAL = 0;
+    public final int NORMAL = 0; // À modifier : PRODUCTION
     public final int ADMIN = 1;
+    public final int EXPLOITATION = 2;
 
 }
