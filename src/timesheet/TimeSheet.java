@@ -32,7 +32,9 @@ public class TimeSheet {
             Logger.getLogger(TimeSheet.class.getName()).log(Level.SEVERE, "Erreur d'entrée/sortie.", ex);
         }
 
-        ArrayList<String> errors = ErrorValidator.fetchErrors(reader.getEmployee());
+
+        TimesheetValidator validator = new TimesheetValidator(reader.getEmployee());
+        ArrayList<String> errors = validator.getErrors();
         try {
             writer = new JSONFileWriter(args[1]);
         } catch (ArrayIndexOutOfBoundsException ex) {
@@ -40,9 +42,9 @@ public class TimeSheet {
             System.exit(1);
         }
 
-        try{
+        try {
             writer.writeErrors(errors);
-        } catch(IOException ex) {
+        } catch (IOException ex) {
             Logger.getLogger(TimeSheet.class.getName()).log(Level.SEVERE, "Erreur d'entrée/sortie.", ex);
         }
     }
