@@ -1,54 +1,55 @@
 package timesheet;
 
+import java.util.ArrayList;
+
 public class Employee {
 
     public Employee() {
     }
 
     public Employee(int numeroEmploye) {
-        setNumeroEmploye(numeroEmploye);
-    }
-
-    public void setNumeroEmploye(int numEmp){
-        numeroEmploye = numEmp;
-        if( numEmp < 1000 ){
+        this.numeroEmploye = numeroEmploye;
+        if(numeroEmploye < 1000){
             typeEmploye = ADMIN;
         } else {
             typeEmploye = NORMAL;
         }
     }
-
-    public void setTempsTravaille(int jours, int project, int minutes){
-        if(project > 900){
-            totalTempsTele += minutes;
-        }else{
-            totalTempsBureau += minutes;
-            tempsBureauParJours[jours] += minutes;
-        }
+    
+    public void setWeek(ArrayList<Day> week) {
+        this.week = week;
     }
 
-    public int getNumeroEmploye(){
+    public int getNumeroEmploye() {
         return numeroEmploye;
     }
 
-    public int getTypeEmploye(){
+    public int getTypeEmploye() {
         return typeEmploye;
     }
 
-    public int getTotalTempsTele(){
-        return totalTempsTele;
+    public int getTotalHomeMinutes(){
+        int totalHomeMinutes = 0;
+        
+        for (Day day: week) {
+            totalHomeMinutes += day.getTotalHomeMinutes();
+        }
+        
+        return totalHomeMinutes;
     }
 
-    public int getTotalTempsBureau(){
-        return totalTempsBureau;
+    public int getTotalOfficeMinutes() {
+        int totalOfficeMinutes = 0;
+        
+        for (Day day: week) {
+            totalOfficeMinutes += day.getTotalOfficeMinutes();
+        }
+        
+        return totalOfficeMinutes;
     }
 
     public int getTempsUnJour(int jour){
-        return tempsBureauParJours[jour];
-    }
-
-    public int[] getTempsBureauParJours(){
-        return tempsBureauParJours;
+        return week.get(jour).getTotalMinutes();
     }
 
     public boolean isAdmin(){
@@ -64,24 +65,24 @@ public class Employee {
         String chaine;
 
         chaine = "Numéro d'employé : " + numeroEmploye + "\n";
-        chaine += "Total temps de télétravail : " + totalTempsTele + "\n";
-        chaine += "Total temps de bureau : " + totalTempsBureau + "\n";
+        chaine += "Total temps de télétravail : " + getTotalHomeMinutes() + "\n";
+        chaine += "Total temps de bureau : " + getTotalOfficeMinutes() + "\n";
         chaine += "Temps de bureau" + "\n";
-        chaine += "Lundi : " + tempsBureauParJours[0] + "\n";
-        chaine += "Mardi : " + tempsBureauParJours[1] + "\n";
-        chaine += "Mercredi : " + tempsBureauParJours[2] + "\n";
-        chaine += "Jeudi : " + tempsBureauParJours[3] + "\n";
-        chaine += "Vendredi : " + tempsBureauParJours[4] + "\n";
-        chaine += "Samedi : " + tempsBureauParJours[5] + "\n";
-        chaine += "Dimanche : " + tempsBureauParJours[6] + "\n";
+        chaine += "Lundi : " + week.get(0).getTotalOfficeMinutes() + "\n";
+        chaine += "Mardi : " + week.get(1).getTotalOfficeMinutes() + "\n";
+        chaine += "Mercredi : " + week.get(2).getTotalOfficeMinutes() + "\n";
+        chaine += "Jeudi : " + week.get(3).getTotalOfficeMinutes() + "\n";
+        chaine += "Vendredi : " + week.get(4).getTotalOfficeMinutes() + "\n";
+        chaine += "Samedi : " + week.get(5).getTotalOfficeMinutes() + "\n";
+        chaine += "Dimanche : " + week.get(6).getTotalOfficeMinutes() + "\n";
 
         return chaine;
     }
 
     private int numeroEmploye;
-    private int totalTempsTele = 0;
-    private int totalTempsBureau = 0;
-    private int tempsBureauParJours[] = {0,0,0,0,0,0,0};
+    
+    private ArrayList<Day> week;
+    
     private int typeEmploye;
     public final int NORMAL = 0; // À modifier : PRODUCTION
     public final int ADMIN = 1;

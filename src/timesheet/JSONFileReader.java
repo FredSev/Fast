@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JSONSerializer;
@@ -23,7 +24,6 @@ public class JSONFileReader {
     private String filePath;
     private String fileContent;
     private Employee employee;
-    private final String[] daysLogicalNames = {"jour1", "jour2", "jour3", "jour4", "jour5", "weekend1", "weekend2"};
     
     public JSONFileReader(String filePath) throws FileNotFoundException, IOException {
         this.filePath = filePath;
@@ -47,31 +47,37 @@ public class JSONFileReader {
 
         employee = new Employee(employeeNumber);
         
-        fillEmployee(employeeJSON);
+        employee.setWeek(fillWeek(employeeJSON));
         
         return employee;
     }
     
-    private void fillEmployee(JSONObject employeeJSON) {
+    private ArrayList<Day> fillWeek(JSONObject employeeJSON) {
+        ArrayList<Day> week = new ArrayList();
+        
         for (int d = 0; d < 7; d++) {
-            JSONArray day = employeeJSON.getJSONArray(daysLogicalNames[d]);
-
-            if (!day.isEmpty()) {
-                fillDay(day, d);
-            }
+            JSONArray dayJSON = employeeJSON.getJSONArray(Day.daysLogicalNames[d]);
+            
+            week.add(fillDay(dayJSON, d));
         }
+        
+        return week;
     }
     
-    private void fillDay(JSONArray day, int dayIndex) {
-        int entriesCount = day.size();
+    private Day fillDay(JSONArray dayJSON, int dayIndex) {
+        Day day = new Day(dayIndex);
+        
+        int entriesCount = dayJSON.size();
         
         for (int e = 0; e < entriesCount; e++) {
-            JSONObject entry = day.getJSONObject(e);
+            JSONObject entry = dayJSON.getJSONObject(e);
 
             int project = entry.getInt("projet");
             int minutes = entry.getInt("minutes");
 
-            employee.setTempsTravaille(dayIndex, project, minutes);
+            day.addEntry(new Entry(project, minutes));
         }
+        
+        return day;
     }
 }

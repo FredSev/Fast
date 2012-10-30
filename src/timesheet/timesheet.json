@@ -1,0 +1,77 @@
+{
+    "numero_employe": 5599,
+    "jour1": [
+        {
+            "projet": 200,
+            "minutes": 120
+        },
+        {
+            "projet": 125,
+            "minutes": 120
+        },
+        {
+            "projet": 690,
+            "minutes": 100
+        },
+        {
+            "projet": 965,
+            "minutes": 25
+        }
+    ],
+    "jour2": [
+        {
+            "projet": 125,
+            "minutes": 420
+        }
+    ],
+    "jour3": [
+        {
+            "projet": 125,
+            "minutes": 420
+        },
+        {
+            "projet": 975,
+            "minutes": 30
+        }
+    ],
+    "jour4": [
+        {
+            "projet": 125,
+            "minutes": 120
+        },
+        {
+            "projet": 443,
+            "minutes": 150
+        },
+        {
+            "projet": 664,
+            "minutes": 150
+        }
+    ],
+    "jour5": [
+        {
+            "projet": 443,
+            "minutes": 400
+        },
+        {
+            "projet": 975,
+            "minutes": 50
+        },
+        {
+            "projet": 45,
+            "minutes": 25
+        }
+    ],
+    "weekend1": [
+        {
+            "projet": 990,
+            "minutes": 300
+        }
+    ],
+    "weekend2": [
+        {
+            "projet": 990,
+            "minutes": 300
+        }
+    ]
+}
