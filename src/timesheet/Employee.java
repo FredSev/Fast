@@ -15,9 +15,13 @@ public class Employee {
             typeEmploye = NORMAL;
         }
     }
-    
+
     public void setWeek(ArrayList<Day> week) {
         this.week = week;
+    }
+
+    public Day getDay(int day){
+        return week.get(day);
     }
 
     public int getNumeroEmploye() {
@@ -30,27 +34,27 @@ public class Employee {
 
     public int getTotalHomeMinutes(){
         int totalHomeMinutes = 0;
-        
+
         for (Day day: week) {
             totalHomeMinutes += day.getTotalHomeMinutes();
         }
-        
+
         return totalHomeMinutes;
     }
 
     public int getTotalOfficeMinutes() {
         int totalOfficeMinutes = 0;
-        
+
         for (Day day: week) {
             totalOfficeMinutes += day.getTotalOfficeMinutes();
         }
-        
+
         return totalOfficeMinutes;
     }
 
-    public int getTempsUnJour(int jour){
-        return week.get(jour).getTotalMinutes();
-    }
+  //  public int getTempsUnJour(int jour){
+  //      return week.get(jour).getTotalMinutes();
+  //  }
 
     public boolean isAdmin(){
         if( typeEmploye == ADMIN){
@@ -80,9 +84,9 @@ public class Employee {
     }
 
     private int numeroEmploye;
-    
+
     private ArrayList<Day> week;
-    
+
     private int typeEmploye;
     public final int NORMAL = 0; // À modifier : PRODUCTION
     public final int ADMIN = 1;
