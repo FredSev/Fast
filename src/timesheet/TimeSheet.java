@@ -32,8 +32,8 @@ public class TimeSheet {
             Logger.getLogger(TimeSheet.class.getName()).log(Level.SEVERE, "Erreur d'entrée/sortie.", ex);
         }
 
-
-        TimesheetValidator validator = new TimesheetValidator(reader.getEmployee());
+        Employee employee = reader.getEmployee();
+        TimesheetValidator validator = new TimesheetValidator(employee);
         ArrayList<String> errors = validator.getErrors();
         try {
             writer = new JSONFileWriter(args[1]);
