@@ -5,6 +5,7 @@ package timesheet;
  * @author Émile Plourde-Lavoie PLOE23048908
  */
 public class Entry {
+    
     private int project;
     private int minutes;
     
@@ -23,7 +24,7 @@ public class Entry {
     
     public boolean isHoliday() {
         return project == 998;
-    }
+    } 
     
     public boolean isOffice() {
         return project <= 900;

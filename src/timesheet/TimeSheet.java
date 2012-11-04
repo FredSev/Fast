@@ -16,7 +16,6 @@ public class TimeSheet {
 
     static JSONFileReader reader = null;
     static JSONFileWriter writer = null;
-
     /**
      * @param args the command line arguments
      */
@@ -32,8 +31,8 @@ public class TimeSheet {
             Logger.getLogger(TimeSheet.class.getName()).log(Level.SEVERE, "Erreur d'entrée/sortie.", ex);
         }
 
-        Employee employee = reader.getEmployee();
-        TimesheetValidator validator = new TimesheetValidator(employee);
+        EmployeeWorkWeek workWeek = reader.getWorkWeek();
+        TimesheetValidator validator = new TimesheetValidator(workWeek);
         ArrayList<String> errors = validator.getErrors();
         try {
             writer = new JSONFileWriter(args[1]);

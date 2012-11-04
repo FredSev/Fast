@@ -3,7 +3,7 @@
     "jour1": [
         {
             "projet": 200,
-            "minutes": 120
+            "minutes": 520
         },
         {
             "projet": 125,
@@ -15,7 +15,7 @@
         },
         {
             "projet": 965,
-            "minutes": 25
+            "minutes": 250
         }
     ],
     "jour2": [
@@ -31,7 +31,7 @@
         },
         {
             "projet": 975,
-            "minutes": 30
+            "minutes": 300
         }
     ],
     "jour4": [

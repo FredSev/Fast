@@ -3,7 +3,6 @@
  * (c) 2011 Jacques Berger.
  * 
  */
-
 package timesheet;
 
 import java.io.File;
@@ -23,12 +22,12 @@ public class JSONFileReader {
     
     private String filePath;
     private String fileContent;
-    private Employee employee;
+    private EmployeeWorkWeek workWeek;
     
     public JSONFileReader(String filePath) throws FileNotFoundException, IOException {
         this.filePath = filePath;
         this.fileContent = readFile(this.filePath);
-        this.employee = null;
+        this.workWeek = null;
     }
     
     private String readFile(String filePath) throws FileNotFoundException, IOException {
@@ -40,23 +39,23 @@ public class JSONFileReader {
         return new String(fileBuffer);
     }
 
-    public Employee getEmployee() {
-        JSONObject employeeJSON = (JSONObject) JSONSerializer.toJSON(fileContent);
+    public EmployeeWorkWeek getWorkWeek() {
+        JSONObject workWeekJSON = (JSONObject) JSONSerializer.toJSON(fileContent);
         
-        int employeeNumber = employeeJSON.getInt("numero_employe");
+        int employeeNumber = workWeekJSON.getInt("numero_employe");
 
-        employee = new Employee(employeeNumber);
+        workWeek = new EmployeeWorkWeek(employeeNumber);
         
-        employee.setWeek(fillWeek(employeeJSON));
+        workWeek.setWeek(fillWeek(workWeekJSON));
         
-        return employee;
+        return workWeek;
     }
     
-    private ArrayList<Day> fillWeek(JSONObject employeeJSON) {
+    private ArrayList<Day> fillWeek(JSONObject workWeekJSON) {
         ArrayList<Day> week = new ArrayList();
         
         for (int d = 0; d < 7; d++) {
-            JSONArray dayJSON = employeeJSON.getJSONArray(Day.daysLogicalNames[d]);
+            JSONArray dayJSON = workWeekJSON.getJSONArray(Day.daysLogicalNames[d]);
             
             week.add(fillDay(dayJSON, d));
         }
