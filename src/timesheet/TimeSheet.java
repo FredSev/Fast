@@ -20,27 +20,42 @@ public class TimeSheet {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        initializeReader(args);
+        initializeWriter(args);
+
+        EmployeeWorkWeek workWeek = reader.getWorkWeek();
+        
+        if (!workWeek.isEmpty()) {
+            TimesheetValidator validator = new TimesheetValidator(workWeek);
+            ArrayList<String> errors = validator.getErrors();
+            writeErrors(errors);
+        } else {
+            writeErrors(new ArrayList<String>());
+        }
+    }
+    
+    private static void initializeReader(String[] args) {
         try {
             reader = new JSONFileReader(args[0]);
         } catch (ArrayIndexOutOfBoundsException ex) {
             Logger.getLogger(TimeSheet.class.getName()).log(Level.SEVERE, "Pas de fichier d'entrée spécifié.", ex);
             System.exit(1);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(TimeSheet.class.getName()).log(Level.SEVERE, "Fichier introuvable.", ex);
         } catch (IOException ex) {
             Logger.getLogger(TimeSheet.class.getName()).log(Level.SEVERE, "Erreur d'entrée/sortie.", ex);
+            System.exit(1);
         }
-
-        EmployeeWorkWeek workWeek = reader.getWorkWeek();
-        TimesheetValidator validator = new TimesheetValidator(workWeek);
-        ArrayList<String> errors = validator.getErrors();
+    }
+    
+    private static void initializeWriter(String[] args) {
         try {
             writer = new JSONFileWriter(args[1]);
         } catch (ArrayIndexOutOfBoundsException ex) {
             Logger.getLogger(TimeSheet.class.getName()).log(Level.SEVERE, "Pas de fichier de sortie spécifié.", ex);
             System.exit(1);
         }
-
+    }
+    
+    private static void writeErrors(ArrayList<String> errors) {
         try {
             writer.writeErrors(errors);
         } catch (IOException ex) {

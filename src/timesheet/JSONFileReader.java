@@ -11,6 +11,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import net.sf.json.JSONArray;
+import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 import net.sf.json.JSONSerializer;
 
@@ -23,11 +24,13 @@ public class JSONFileReader {
     private String filePath;
     private String fileContent;
     private EmployeeWorkWeek workWeek;
+    private JSONObject workWeekJSON;
     
     public JSONFileReader(String filePath) throws FileNotFoundException, IOException {
         this.filePath = filePath;
         this.fileContent = readFile(this.filePath);
         this.workWeek = null;
+        this.workWeekJSON = null;
     }
     
     private String readFile(String filePath) throws FileNotFoundException, IOException {
@@ -40,13 +43,16 @@ public class JSONFileReader {
     }
 
     public EmployeeWorkWeek getWorkWeek() {
-        JSONObject workWeekJSON = (JSONObject) JSONSerializer.toJSON(fileContent);
-        
-        int employeeNumber = workWeekJSON.getInt("numero_employe");
-
-        workWeek = new EmployeeWorkWeek(employeeNumber);
-        
-        workWeek.setWeek(fillWeek(workWeekJSON));
+        try {
+            workWeekJSON = (JSONObject) JSONSerializer.toJSON(fileContent);
+            int employeeNumber = workWeekJSON.getInt("numero_employe");
+            workWeek = new EmployeeWorkWeek(employeeNumber);
+            workWeek.setWeek(fillWeek(workWeekJSON));
+        } catch (JSONException ex) {
+            workWeekJSON = (JSONObject) JSONSerializer.toJSON("{}");
+            System.err.println("Erreur de syntaxe JSON.");
+            workWeek = new EmployeeWorkWeek(0);
+        }
         
         return workWeek;
     }

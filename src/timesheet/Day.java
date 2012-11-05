@@ -22,24 +22,34 @@ public class Day {
     private boolean hasHolidayEntry = false;
     private boolean hasSickEntry = false;
     private boolean hasRegularEntry = false;
+    
     private boolean upToDate = false;
+    private boolean isEmpty = true;
     
     public Day(int dayIndex) {
         this.dayIndex = dayIndex;
     }
     
+    public boolean isEmpty() {
+        return isEmpty;
+    }
+    
     public void addEntry(Entry entry) {
         upToDate = false;
+        isEmpty = true;
         this.entries.add(entry);
     }
     
     private void updateDayProperties() {
         clearDayProperties();
+        
         for (Entry entry: entries) {
             updateDayTypes(entry);
             updateDayMinutes(entry);
         }
+        
         totalMinutesWorked = totalWorkFromHomeMinutes + totalOfficeMinutes;
+        
         upToDate = true;
     }
     
@@ -49,62 +59,100 @@ public class Day {
         totalMinutesWorked = 0;
         totalHolidayMinutes = 0;
         totalSickDayMinutes = 0;
+        
         hasHolidayEntry = false;
         hasSickEntry = false;
         hasRegularEntry = false;
+        
+        isEmpty = true;
+        upToDate = false;
     }
     
     private void updateDayTypes(Entry entry) {
-        if (entry.isHoliday()) hasHolidayEntry = true;
-        else if (entry.isSick()) hasSickEntry = true;
-        else hasRegularEntry = true;
+        if (entry.isHoliday()) {
+            hasHolidayEntry = true;
+        } else if (entry.isSick()) {
+            hasSickEntry = true;
+        } else {
+            hasRegularEntry = true;
+        }
     }
     
     private void updateDayMinutes(Entry entry) {
-        if (entry.isHome()) totalWorkFromHomeMinutes += entry.getMinutes();
-        else if (entry.isOffice()) totalOfficeMinutes += entry.getMinutes();
+        if (entry.isHome()) {
+            totalWorkFromHomeMinutes += entry.getMinutes();
+        } else if (entry.isOffice()) {
+            totalOfficeMinutes += entry.getMinutes();
+        }
        
-        if (entry.isSick()) totalSickDayMinutes += entry.getMinutes();
-        else if (entry.isHoliday()) totalHolidayMinutes += entry.getMinutes();
+        if (entry.isSick()) {
+            totalSickDayMinutes += entry.getMinutes();
+        } else if (entry.isHoliday()) {
+            totalHolidayMinutes += entry.getMinutes();
+        }
     }
     
     public int getTotalMinutesWorked() {        
-        if (!upToDate) updateDayProperties();
+        if (!upToDate) {
+            updateDayProperties();
+        }
+        
         return totalMinutesWorked;
     }
     
     public int getWorkFromHomeMinutes() {        
-        if (!upToDate) updateDayProperties();
+        if (!upToDate) {
+            updateDayProperties();
+        }
+        
         return totalWorkFromHomeMinutes;
     }
     
     public int getTotalDayOfficeMinutes() {        
-        if (!upToDate) updateDayProperties();
+        if (!upToDate) {
+            updateDayProperties();
+        }
+        
         return totalOfficeMinutes;
     }
     
     public int getSickDayMinutes() {
-        if (!upToDate) updateDayProperties();
+        if (!upToDate) {
+            updateDayProperties();
+        }
+        
         return totalSickDayMinutes;
     }
     
     public int getHolidayMinutes() {
-        if (!upToDate) updateDayProperties();
+        if (!upToDate) {
+            updateDayProperties();
+        }
+        
         return totalHolidayMinutes;
     }
     
     public boolean hasSickEntry() {        
-        if (!upToDate) updateDayProperties();
+        if (!upToDate) {
+            updateDayProperties();
+        }
+        
         return hasSickEntry;
     }
     
     public boolean hasHolidayEntry() {        
-        if (!upToDate) updateDayProperties();
+        if (!upToDate) {
+            updateDayProperties();
+        }
+        
         return hasHolidayEntry;
     }
     
     public boolean hasRegularEntry() {        
-        if (!upToDate) updateDayProperties();
+        if (!upToDate) {
+            updateDayProperties();
+        }
+        
         return hasRegularEntry;
     }
     

@@ -22,6 +22,7 @@ public class EmployeeWorkWeek {
 
     public EmployeeWorkWeek(int employeeNumber) {
         this.employeeNumber = employeeNumber;
+        this.week = new ArrayList<Day>();
         setEmployeeType();
     }
     
@@ -29,8 +30,11 @@ public class EmployeeWorkWeek {
         if(employeeNumber < 1000){
             employeeType = ADMIN;
             admin = true;
-        }else if(employeeNumber >= 2000) employeeType = EXPLOITATION;    
-        else employeeType = PRODUCTION;  
+        } else if (employeeNumber >= 2000) {
+            employeeType = EXPLOITATION;
+        } else {
+            employeeType = PRODUCTION;
+        }
     }
     
     public void setWeek(ArrayList<Day> week) {
@@ -51,20 +55,30 @@ public class EmployeeWorkWeek {
 
     public int getTotalWorkFromHomeMinutes(){
         int totalWorkFromHomeMinutes = 0;
-        for (Day day: week) totalWorkFromHomeMinutes += day.getWorkFromHomeMinutes();
+        
+        for (Day day: week) {
+            totalWorkFromHomeMinutes += day.getWorkFromHomeMinutes();
+        }
         
         return totalWorkFromHomeMinutes;
     }
 
     public int getTotalWeekOfficeMinutes() {
         int totalWeekOfficeMinutes = 0;
-        for (Day day: week) totalWeekOfficeMinutes += day.getTotalDayOfficeMinutes();
+        
+        for (Day day: week) {
+            totalWeekOfficeMinutes += day.getTotalDayOfficeMinutes();
+        }
         
         return totalWeekOfficeMinutes;
     }
 
     public boolean isAdmin(){
         return admin;
+    }
+    
+    public boolean isEmpty() {        
+        return week.isEmpty();
     }
 
     @Override
