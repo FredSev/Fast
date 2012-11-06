@@ -21,9 +21,12 @@ public class JSONFileWriter {
     public void writeErrors(ArrayList<String> errors) throws IOException{
         JSONArray outputJSON = new JSONArray();
    
-        for (String error : errors) outputJSON.add(error);
+        for (String error : errors){
+            outputJSON.add(error);
+        }
         
         FileWriter outputFile = new FileWriter(filePath);
+        
 	outputJSON.write(outputFile);
 	outputFile.close();
     }
