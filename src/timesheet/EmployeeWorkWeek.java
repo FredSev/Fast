@@ -26,6 +26,14 @@ public class EmployeeWorkWeek {
         setEmployeeType();
     }
     
+    public boolean isAdmin(){
+        return admin;
+    }
+    
+    public boolean isEmpty() {        
+        return week.isEmpty();
+    }
+    
     private void setEmployeeType(){
         if(employeeNumber < 1000){
             employeeType = ADMIN;
@@ -71,14 +79,6 @@ public class EmployeeWorkWeek {
         }
         
         return totalWeekOfficeMinutes;
-    }
-
-    public boolean isAdmin(){
-        return admin;
-    }
-    
-    public boolean isEmpty() {        
-        return week.isEmpty();
     }
 
     @Override

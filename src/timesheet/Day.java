@@ -30,68 +30,6 @@ public class Day {
         this.dayIndex = dayIndex;
     }
     
-    public boolean isEmpty() {
-        return isEmpty;
-    }
-    
-    public void addEntry(Entry entry) {
-        upToDate = false;
-        isEmpty = true;
-        this.entries.add(entry);
-    }
-    
-    private void updateDayProperties() {
-        clearDayProperties();
-        
-        for (Entry entry: entries) {
-            updateDayTypes(entry);
-            updateDayMinutes(entry);
-        }
-        
-        totalMinutesWorked = totalWorkFromHomeMinutes + totalOfficeMinutes;
-        
-        upToDate = true;
-    }
-    
-    private void clearDayProperties(){
-        totalWorkFromHomeMinutes = 0;
-        totalOfficeMinutes = 0;
-        totalMinutesWorked = 0;
-        totalHolidayMinutes = 0;
-        totalSickDayMinutes = 0;
-        
-        hasHolidayEntry = false;
-        hasSickEntry = false;
-        hasRegularEntry = false;
-        
-        isEmpty = true;
-        upToDate = false;
-    }
-    
-    private void updateDayTypes(Entry entry) {
-        if (entry.isHoliday()) {
-            hasHolidayEntry = true;
-        } else if (entry.isSick()) {
-            hasSickEntry = true;
-        } else {
-            hasRegularEntry = true;
-        }
-    }
-    
-    private void updateDayMinutes(Entry entry) {
-        if (entry.isHome()) {
-            totalWorkFromHomeMinutes += entry.getMinutes();
-        } else if (entry.isOffice()) {
-            totalOfficeMinutes += entry.getMinutes();
-        }
-       
-        if (entry.isSick()) {
-            totalSickDayMinutes += entry.getMinutes();
-        } else if (entry.isHoliday()) {
-            totalHolidayMinutes += entry.getMinutes();
-        }
-    }
-    
     public int getTotalMinutesWorked() {        
         if (!upToDate) {
             updateDayProperties();
@@ -154,6 +92,68 @@ public class Day {
         }
         
         return hasRegularEntry;
+    }
+    
+    public boolean isEmpty() {
+        return isEmpty;
+    }
+    
+    public void addEntry(Entry entry) {
+        upToDate = false;
+        isEmpty = true;
+        this.entries.add(entry);
+    }
+    
+    private void updateDayProperties() {
+        clearDayProperties();
+        
+        for (Entry entry: entries) {
+            updateDayTypes(entry);
+            updateDayMinutes(entry);
+        }
+        
+        totalMinutesWorked = totalWorkFromHomeMinutes + totalOfficeMinutes;
+        
+        upToDate = true;
+    }
+    
+    private void clearDayProperties(){
+        totalWorkFromHomeMinutes = 0;
+        totalOfficeMinutes = 0;
+        totalMinutesWorked = 0;
+        totalHolidayMinutes = 0;
+        totalSickDayMinutes = 0;
+        
+        hasHolidayEntry = false;
+        hasSickEntry = false;
+        hasRegularEntry = false;
+        
+        isEmpty = true;
+        upToDate = false;
+    }
+    
+    private void updateDayTypes(Entry entry) {
+        if (entry.isHoliday()) {
+            hasHolidayEntry = true;
+        } else if (entry.isSick()) {
+            hasSickEntry = true;
+        } else {
+            hasRegularEntry = true;
+        }
+    }
+    
+    private void updateDayMinutes(Entry entry) {
+        if (entry.isHome()) {
+            totalWorkFromHomeMinutes += entry.getMinutes();
+        } else if (entry.isOffice()) {
+            totalOfficeMinutes += entry.getMinutes();
+        }
+       
+        if (entry.isSick()) {
+            totalSickDayMinutes += entry.getMinutes();
+        } else if (entry.isHoliday()) {
+            totalHolidayMinutes += entry.getMinutes();
+        }
     }
     
     @Override
