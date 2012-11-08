@@ -75,7 +75,7 @@ public class EmployeeWorkWeek {
         int totalWeekOfficeMinutes = 0;
         
         for (Day day: week) {
-            totalWeekOfficeMinutes += day.getTotalDayOfficeMinutes();
+            totalWeekOfficeMinutes += day.getTotalOfficeMinutes();
         }
         
         return totalWeekOfficeMinutes;
@@ -89,14 +89,38 @@ public class EmployeeWorkWeek {
         chaine += "Total temps de télétravail : " + getTotalWorkFromHomeMinutes() + "\n";
         chaine += "Total temps de bureau : " + getTotalWeekOfficeMinutes() + "\n";
         chaine += "Temps de bureau" + "\n";
-        chaine += "Lundi : " + week.get(0).getTotalDayOfficeMinutes() + "\n";
-        chaine += "Mardi : " + week.get(1).getTotalDayOfficeMinutes() + "\n";
-        chaine += "Mercredi : " + week.get(2).getTotalDayOfficeMinutes() + "\n";
-        chaine += "Jeudi : " + week.get(3).getTotalDayOfficeMinutes() + "\n";
-        chaine += "Vendredi : " + week.get(4).getTotalDayOfficeMinutes() + "\n";
-        chaine += "Samedi : " + week.get(5).getTotalDayOfficeMinutes() + "\n";
-        chaine += "Dimanche : " + week.get(6).getTotalDayOfficeMinutes() + "\n";
+        chaine += "Lundi : " + week.get(0).getTotalOfficeMinutes() + "\n";
+        chaine += "Mardi : " + week.get(1).getTotalOfficeMinutes() + "\n";
+        chaine += "Mercredi : " + week.get(2).getTotalOfficeMinutes() + "\n";
+        chaine += "Jeudi : " + week.get(3).getTotalOfficeMinutes() + "\n";
+        chaine += "Vendredi : " + week.get(4).getTotalOfficeMinutes() + "\n";
+        chaine += "Samedi : " + week.get(5).getTotalOfficeMinutes() + "\n";
+        chaine += "Dimanche : " + week.get(6).getTotalOfficeMinutes() + "\n";
         
         return chaine;
+    }
+
+    int getTotalMinutesWorkedOnDay(int dayIndex) {
+        return week.get(dayIndex).getTotalMinutesWorked();
+    }
+
+    boolean isSickDay(int dayIndex) {
+        return week.get(dayIndex).hasSickEntry();
+    }
+
+    int getSickDayMinutes(int dayIndex) {
+        return week.get(dayIndex).getSickDayMinutes();
+    }
+
+    boolean isHoliday(int dayIndex) {
+        return week.get(dayIndex).hasHolidayEntry();
+    }
+
+    int getHolidayMinutes(int dayIndex) {
+        return week.get(dayIndex).getHolidayMinutes();
+    }
+
+    int getTotalOfficeMinutesForDay(int dayIndex) {
+        return week.get(dayIndex).getTotalOfficeMinutes();
     }
 }

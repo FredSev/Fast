@@ -46,7 +46,7 @@ public class Day {
         return totalWorkFromHomeMinutes;
     }
     
-    public int getTotalDayOfficeMinutes() {        
+    public int getTotalOfficeMinutes() {        
         if (!upToDate) {
             updateDayProperties();
         }

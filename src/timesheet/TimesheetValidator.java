@@ -49,100 +49,105 @@ public class TimesheetValidator {
     }
 
     private void validateMaxHoursPerDay() {
-        for (Integer i = 0; i < NUMBER_OF_WEEK_DAYS; i++) {
-            if (currentWorkWeek.getSpecificDayOfWeek(i).getTotalMinutesWorked() > MAX_HOURS_DAY) {
-                errors.add(currentWorkWeek.getSpecificDayOfWeek(i) + ", l'employé a déclaré plus de 24 heures"
-            + " pour la journée. (" + (currentWorkWeek.getSpecificDayOfWeek(i).getTotalMinutesWorked()/60) + " heures)");
+        for (int i = 0; i < NUMBER_OF_WEEK_DAYS; i++) {
+            if (currentWorkWeek.getTotalMinutesWorkedOnDay(i) > MAX_HOURS_DAY) {
+                errors.add(currentWorkWeek.getSpecificDayOfWeek(i) + ", l'employé"
+            + " a déclaré plus de 24 heures pour la journée.");
             }
         }
     }
 
     private void validateSickDays() {
-        for (Integer i = 0; i < NUMBER_OF_WEEK_DAYS; i++) {
-            validateOneSickDay(currentWorkWeek.getSpecificDayOfWeek(i));
+        for (int i = 0; i < NUMBER_OF_WEEK_DAYS; i++) {
+            validateOneSickDay(i);
         }
         if (validateWeekendSickDay()) {
             errors.add("L'employée a chargé un congé de maladie durant la fin de semaine.");
         }
     }
 
-    private void validateOneSickDay(Day day) {
-        if (day.hasSickEntry()) {
-            if (day.getSickDayMinutes() != SICKDAY_HOURS) {
-                errors.add(day + ", l'employé n'a pas chargé le bon nombre d'heures pour "
-                        + "sa journée de maladie. (" + (day.getSickDayMinutes()/60) + " heures)");
-            } else if (day.getTotalMinutesWorked() != SICKDAY_HOURS) {
-                errors.add(day + ", l'employé a eu d'autres activités de travail pendant "
-                        + "qu'il était malade.");
+    private void validateOneSickDay(int dayIndex) {
+        if (currentWorkWeek.isSickDay(dayIndex)) {
+            if (currentWorkWeek.getSickDayMinutes(dayIndex) != SICKDAY_HOURS) {
+                errors.add(currentWorkWeek.getSpecificDayOfWeek(dayIndex) + ","
+                        + " l'employé n'a pas chargé le bon nombre d'heures pour"
+                        + " sa journée de maladie.");
+            } else if (currentWorkWeek.getTotalMinutesWorkedOnDay(dayIndex) != SICKDAY_HOURS) {
+                errors.add(currentWorkWeek.getSpecificDayOfWeek(dayIndex) + ","
+                        + " l'employé a eu d'autres activités de travail pendant"
+                        + " qu'il était malade.");
             }
         }
     }
 
     private boolean validateWeekendSickDay() {
-        return (currentWorkWeek.getSpecificDayOfWeek(SATURDAY).hasSickEntry() ||
-                currentWorkWeek.getSpecificDayOfWeek(SUNDAY).hasSickEntry());
+        return (currentWorkWeek.isSickDay(SATURDAY) ||
+                currentWorkWeek.isSickDay(SUNDAY));
     }
 
     private void validateHolidays() {
-        for (Integer i = 0; i < SATURDAY; i++) {
-            validateOneHoliday(currentWorkWeek.getSpecificDayOfWeek(i));
+        for (int i = 0; i < SATURDAY; i++) {
+            validateOneHoliday(i);
         }
         if (validateWeekendHoliday()) {
-            errors.add("L'employée a chargé un congé férié durant la fin de "
-                    + "semaine.");
+            errors.add("L'employée a chargé un congé férié durant la fin de"
+                    + " semaine.");
         }
     }
 
-    private void validateOneHoliday(Day day) {
-        if (day.hasHolidayEntry()) {
-            if (day.getHolidayMinutes() != HOLIDAY_HOURS) {
-                errors.add(day + ", l'employé n'a pas chargé le bon nombre d'heures pour "
-                        + "son congé férié. (" + (day.getHolidayMinutes()/60) + " heures)");
-            } else if (day.getTotalDayOfficeMinutes() != 0) {
-                errors.add(day + ", l'employé a travaillé au bureau pendant son congé "
-                        + "férié.");
+    private void validateOneHoliday(int dayIndex) {
+        if (currentWorkWeek.isHoliday(dayIndex)) {
+            if (currentWorkWeek.getHolidayMinutes(dayIndex) != HOLIDAY_HOURS) {
+                errors.add(currentWorkWeek.getSpecificDayOfWeek(dayIndex) + ","
+                        + " l'employé n'a pas chargé le bon nombre d'heures pour"
+                        + " son congé férié.");
+            } else if (currentWorkWeek.getTotalOfficeMinutesForDay(dayIndex) != 0) {
+                errors.add(currentWorkWeek.getSpecificDayOfWeek(dayIndex) + ","
+                        + " l'employé a travaillé au bureau pendant son congé"
+                        + " férié.");
             }
         }
     }
 
     private boolean validateWeekendHoliday() {
-        return (currentWorkWeek.getSpecificDayOfWeek(SATURDAY).hasHolidayEntry() ||
-                currentWorkWeek.getSpecificDayOfWeek(SUNDAY).hasHolidayEntry());
+        return (currentWorkWeek.isHoliday(SATURDAY) ||
+                currentWorkWeek.isHoliday(SUNDAY));
     }
 
     private void validateMinOfficeHoursWeek() {
         if (currentWorkWeek.getTotalWeekOfficeMinutes() < MIN_OFFICE_HOURS_WEEK[currentWorkWeek.getEmployeeType()]) {
-            errors.add("L'employé n'a pas travaillé le nombre d'heures minimal par semaine au "
-                    + "bureau. (" + (currentWorkWeek.getTotalWeekOfficeMinutes()/60) + " heures)");
+            errors.add("L'employé n'a pas travaillé le nombre d'heures minimal"
+                    + " par semaine au bureau.");
         }
     }
 
     private void validateMaxOfficeHoursWeek() {
         if (currentWorkWeek.getTotalWeekOfficeMinutes() > MAX_OFFICE_HOURS_WEEK) {
-            errors.add("L'employé a dépassé le nombre d'heures de travail au bureau par semaine "
-                    + "permis. (" + (currentWorkWeek.getTotalWeekOfficeMinutes()/60) + " heures)");
+            errors.add("L'employé a dépassé le nombre d'heures de travail au"
+                    + " bureau par semaine permis.");
         }
     }
 
     private void validateMaxWorkFromHomeHoursWeek() {
         if (currentWorkWeek.isAdmin()) {
             if (currentWorkWeek.getTotalWorkFromHomeMinutes() > MAX_ADMIN_WORK_FROM_HOME_HOURS_WEEK) {
-                errors.add("L'employé a dépassé le nombre d'heures de télétravail par semaine "
-                        + "permis. (" + (currentWorkWeek.getTotalWorkFromHomeMinutes()/60) + " heures)");
+                errors.add("L'employé a dépassé le nombre d'heures de télétravail"
+                        + " par semaine permis.");
             }
         }
     }
 
     private void validateMinOfficeHours() {
-        for (Integer i = 0; i < NUMBER_OF_WEEK_DAYS; i++) {
-            validateMinOfficeHoursDay(currentWorkWeek.getSpecificDayOfWeek(i));
+        for (int i = 0; i < NUMBER_OF_WEEK_DAYS; i++) {
+            validateMinOfficeHoursDay(i);
         }
     }
 
-    private void validateMinOfficeHoursDay(Day day) {
-        if (day.getTotalDayOfficeMinutes() < MIN_OFFICE_HOURS_DAY[currentWorkWeek.getEmployeeType()]) {
-            errors.add(day + ", l'employé n'a pas travaillé le nombre d'heures minimal au "
-                    + "bureau. (" + (day.getTotalDayOfficeMinutes()/60) + " heures)");
+    private void validateMinOfficeHoursDay(int dayIndex) {
+        if (currentWorkWeek.getTotalOfficeMinutesForDay(dayIndex) < MIN_OFFICE_HOURS_DAY[currentWorkWeek.getEmployeeType()]) {
+            errors.add(currentWorkWeek.getSpecificDayOfWeek(dayIndex) + ","
+                    + " l'employé n'a pas travaillé le nombre d'heures minimal au" 
+                    + " bureau.");
         }
     }
 
