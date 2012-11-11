@@ -72,7 +72,8 @@ public class TimesheetValidator {
                 errors.add(currentWorkWeek.getSpecificDayOfWeek(dayIndex) + ","
                         + " l'employé n'a pas chargé le bon nombre d'heures pour"
                         + " sa journée de maladie.");
-            } else if (currentWorkWeek.getTotalMinutesWorkedOnDay(dayIndex) != SICKDAY_HOURS) {
+            }
+            if (currentWorkWeek.getTotalMinutesWorkedOnDay(dayIndex) != currentWorkWeek.getSickDayMinutes(dayIndex)) {
                 errors.add(currentWorkWeek.getSpecificDayOfWeek(dayIndex) + ","
                         + " l'employé a eu d'autres activités de travail pendant"
                         + " qu'il était malade.");
@@ -101,7 +102,8 @@ public class TimesheetValidator {
                 errors.add(currentWorkWeek.getSpecificDayOfWeek(dayIndex) + ","
                         + " l'employé n'a pas chargé le bon nombre d'heures pour"
                         + " son congé férié.");
-            } else if (currentWorkWeek.getTotalOfficeMinutesForDay(dayIndex) != 0) {
+            }
+            if (currentWorkWeek.getTotalOfficeMinutesForDay(dayIndex) != currentWorkWeek.getHolidayMinutes(dayIndex)) {
                 errors.add(currentWorkWeek.getSpecificDayOfWeek(dayIndex) + ","
                         + " l'employé a travaillé au bureau pendant son congé"
                         + " férié.");

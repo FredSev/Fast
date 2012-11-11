@@ -31,6 +31,10 @@ public class Entry {
     }
     
     public boolean isHome() {
-        return project > 900;
+        if (project > 900 && project != 999 && project != 998){
+            return true;
+        }else{
+            return false;
+        }
     }
 }

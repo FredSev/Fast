@@ -111,9 +111,7 @@ public class Day {
             updateDayTypes(entry);
             updateDayMinutes(entry);
         }
-        
         totalMinutesWorked = totalWorkFromHomeMinutes + totalOfficeMinutes;
-        
         upToDate = true;
     }
     
@@ -150,8 +148,10 @@ public class Day {
         }
        
         if (entry.isSick()) {
+            totalOfficeMinutes += entry.getMinutes();
             totalSickDayMinutes += entry.getMinutes();
         } else if (entry.isHoliday()) {
+            totalOfficeMinutes += entry.getMinutes();
             totalHolidayMinutes += entry.getMinutes();
         }
     }

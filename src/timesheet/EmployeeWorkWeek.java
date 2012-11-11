@@ -81,25 +81,6 @@ public class EmployeeWorkWeek {
         return totalWeekOfficeMinutes;
     }
 
-    @Override
-    public String toString() {
-        String chaine;
-
-        chaine = "Numéro d'employé : " + employeeNumber + "\n";
-        chaine += "Total temps de télétravail : " + getTotalWorkFromHomeMinutes() + "\n";
-        chaine += "Total temps de bureau : " + getTotalWeekOfficeMinutes() + "\n";
-        chaine += "Temps de bureau" + "\n";
-        chaine += "Lundi : " + week.get(0).getTotalOfficeMinutes() + "\n";
-        chaine += "Mardi : " + week.get(1).getTotalOfficeMinutes() + "\n";
-        chaine += "Mercredi : " + week.get(2).getTotalOfficeMinutes() + "\n";
-        chaine += "Jeudi : " + week.get(3).getTotalOfficeMinutes() + "\n";
-        chaine += "Vendredi : " + week.get(4).getTotalOfficeMinutes() + "\n";
-        chaine += "Samedi : " + week.get(5).getTotalOfficeMinutes() + "\n";
-        chaine += "Dimanche : " + week.get(6).getTotalOfficeMinutes() + "\n";
-        
-        return chaine;
-    }
-
     int getTotalMinutesWorkedOnDay(int dayIndex) {
         return week.get(dayIndex).getTotalMinutesWorked();
     }
@@ -122,5 +103,24 @@ public class EmployeeWorkWeek {
 
     int getTotalOfficeMinutesForDay(int dayIndex) {
         return week.get(dayIndex).getTotalOfficeMinutes();
+    }
+    
+    @Override
+    public String toString() {
+        String chaine;
+
+        chaine = "Numéro d'employé : " + employeeNumber + "\n";
+        chaine += "Total temps de télétravail : " + getTotalWorkFromHomeMinutes() + "\n";
+        chaine += "Total temps de bureau : " + getTotalWeekOfficeMinutes() + "\n";
+        chaine += "Temps de bureau" + "\n";
+        chaine += "Lundi : " + week.get(0).getTotalOfficeMinutes() + "\n";
+        chaine += "Mardi : " + week.get(1).getTotalOfficeMinutes() + "\n";
+        chaine += "Mercredi : " + week.get(2).getTotalOfficeMinutes() + "\n";
+        chaine += "Jeudi : " + week.get(3).getTotalOfficeMinutes() + "\n";
+        chaine += "Vendredi : " + week.get(4).getTotalOfficeMinutes() + "\n";
+        chaine += "Samedi : " + week.get(5).getTotalOfficeMinutes() + "\n";
+        chaine += "Dimanche : " + week.get(6).getTotalOfficeMinutes() + "\n";
+        
+        return chaine;
     }
 }
