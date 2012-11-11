@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * @author Guillaume Auger AUGG07098702
  */
 public class TimesheetValidator {
-    
+
     final static Integer[] MIN_OFFICE_HOURS_WEEK = {36 * 60, 38 * 60, 38 * 60};
     final static Integer[] MIN_OFFICE_HOURS_DAY = {4 * 60, 6 * 60, 6 * 60};
     final static Integer MAX_OFFICE_HOURS_WEEK = 43 * 60;
@@ -18,12 +18,12 @@ public class TimesheetValidator {
     final static Integer NUMBER_OF_WEEK_DAYS = 5;
     final static Integer SATURDAY = 5;
     final static Integer SUNDAY = 6;
-
     private EmployeeWorkWeek currentWorkWeek;
     private ArrayList<String> errors;
 
     public TimesheetValidator(EmployeeWorkWeek workWeek) {
         this.currentWorkWeek = workWeek;
+        errors = new ArrayList();
         fetchErrors();
     }
 
@@ -37,8 +37,6 @@ public class TimesheetValidator {
     }
 
     private void fetchErrors() {
-        errors = new ArrayList();
-        
         validateMaxHoursPerDay();
         validateMinOfficeHoursWeek();
         validateMaxOfficeHoursWeek();
@@ -52,7 +50,7 @@ public class TimesheetValidator {
         for (int i = 0; i < NUMBER_OF_WEEK_DAYS; i++) {
             if (currentWorkWeek.getTotalMinutesWorkedOnDay(i) > MAX_HOURS_DAY) {
                 errors.add(currentWorkWeek.getSpecificDayOfWeek(i) + ", l'employé"
-            + " a déclaré plus de 24 heures pour la journée.");
+                        + " a déclaré plus de 24 heures pour la journée.");
             }
         }
     }
@@ -70,20 +68,18 @@ public class TimesheetValidator {
         if (currentWorkWeek.isSickDay(dayIndex)) {
             if (currentWorkWeek.getSickDayMinutes(dayIndex) != SICKDAY_HOURS) {
                 errors.add(currentWorkWeek.getSpecificDayOfWeek(dayIndex) + ","
-                        + " l'employé n'a pas chargé le bon nombre d'heures pour"
-                        + " sa journée de maladie.");
+                        + " l'employé n'a pas chargé le bon nombre d'heures pour sa journée de maladie.");
             }
             if (currentWorkWeek.getTotalMinutesWorkedOnDay(dayIndex) != currentWorkWeek.getSickDayMinutes(dayIndex)) {
                 errors.add(currentWorkWeek.getSpecificDayOfWeek(dayIndex) + ","
-                        + " l'employé a eu d'autres activités de travail pendant"
-                        + " qu'il était malade.");
+                        + " l'employé a eu d'autres activités de travail pendant qu'il était malade.");
             }
         }
     }
 
     private boolean validateWeekendSickDay() {
-        return (currentWorkWeek.isSickDay(SATURDAY) ||
-                currentWorkWeek.isSickDay(SUNDAY));
+        return (currentWorkWeek.isSickDay(SATURDAY)
+                || currentWorkWeek.isSickDay(SUNDAY));
     }
 
     private void validateHolidays() {
@@ -91,8 +87,7 @@ public class TimesheetValidator {
             validateOneHoliday(i);
         }
         if (validateWeekendHoliday()) {
-            errors.add("L'employée a chargé un congé férié durant la fin de"
-                    + " semaine.");
+            errors.add("L'employée a chargé un congé férié durant la fin de semaine.");
         }
     }
 
@@ -100,41 +95,36 @@ public class TimesheetValidator {
         if (currentWorkWeek.isHoliday(dayIndex)) {
             if (currentWorkWeek.getHolidayMinutes(dayIndex) != HOLIDAY_HOURS) {
                 errors.add(currentWorkWeek.getSpecificDayOfWeek(dayIndex) + ","
-                        + " l'employé n'a pas chargé le bon nombre d'heures pour"
-                        + " son congé férié.");
+                        + " l'employé n'a pas chargé le bon nombre d'heures pour son congé férié.");
             }
             if (currentWorkWeek.getTotalOfficeMinutesForDay(dayIndex) != currentWorkWeek.getHolidayMinutes(dayIndex)) {
                 errors.add(currentWorkWeek.getSpecificDayOfWeek(dayIndex) + ","
-                        + " l'employé a travaillé au bureau pendant son congé"
-                        + " férié.");
+                        + " l'employé a travaillé au bureau pendant son congé férié.");
             }
         }
     }
 
     private boolean validateWeekendHoliday() {
-        return (currentWorkWeek.isHoliday(SATURDAY) ||
-                currentWorkWeek.isHoliday(SUNDAY));
+        return (currentWorkWeek.isHoliday(SATURDAY)
+                || currentWorkWeek.isHoliday(SUNDAY));
     }
 
     private void validateMinOfficeHoursWeek() {
         if (currentWorkWeek.getTotalWeekOfficeMinutes() < MIN_OFFICE_HOURS_WEEK[currentWorkWeek.getEmployeeType()]) {
-            errors.add("L'employé n'a pas travaillé le nombre d'heures minimal"
-                    + " par semaine au bureau.");
+            errors.add("L'employé n'a pas travaillé le nombre d'heures minimal par semaine au bureau.");
         }
     }
 
     private void validateMaxOfficeHoursWeek() {
         if (currentWorkWeek.getTotalWeekOfficeMinutes() > MAX_OFFICE_HOURS_WEEK) {
-            errors.add("L'employé a dépassé le nombre d'heures de travail au"
-                    + " bureau par semaine permis.");
+            errors.add("L'employé a dépassé le nombre d'heures de travail au bureau par semaine permis.");
         }
     }
 
     private void validateMaxWorkFromHomeHoursWeek() {
         if (currentWorkWeek.isAdmin()) {
             if (currentWorkWeek.getTotalWorkFromHomeMinutes() > MAX_ADMIN_WORK_FROM_HOME_HOURS_WEEK) {
-                errors.add("L'employé a dépassé le nombre d'heures de télétravail"
-                        + " par semaine permis.");
+                errors.add("L'employé a dépassé le nombre d'heures de télétravail par semaine permis.");
             }
         }
     }
@@ -148,9 +138,7 @@ public class TimesheetValidator {
     private void validateMinOfficeHoursDay(int dayIndex) {
         if (currentWorkWeek.getTotalOfficeMinutesForDay(dayIndex) < MIN_OFFICE_HOURS_DAY[currentWorkWeek.getEmployeeType()]) {
             errors.add(currentWorkWeek.getSpecificDayOfWeek(dayIndex) + ","
-                    + " l'employé n'a pas travaillé le nombre d'heures minimal au" 
-                    + " bureau.");
+                    + " l'employé n'a pas travaillé le nombre d'heures minimal au bureau.");
         }
     }
-
 }

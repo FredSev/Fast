@@ -7,9 +7,9 @@
     },
     {
         "projet": 100,
-        "minutes": 4000
+        "minutes": 4021
     },
-    
+
     {
         "projet": 125,
         "minutes": 400
@@ -17,7 +17,7 @@
 ],
 "jour2": [
     {
-        "projet": 125,
+        "projet": 195,
         "minutes": 5
     }
 ],
@@ -43,7 +43,7 @@
     {
         "projet": 901,
         "minutes": 900
-       
+
     }
 ],
 "weekend2": []
