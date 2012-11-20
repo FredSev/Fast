@@ -24,6 +24,14 @@ public class Entry {
     
     public boolean isHoliday() {
         return project == 998;
+    }
+    
+    public boolean isVacation() {
+        return project == 997;
+    } 
+        
+    public boolean isParentalLeave() {
+        return project == 996;
     } 
     
     public boolean isOffice() {
@@ -31,10 +39,6 @@ public class Entry {
     }
     
     public boolean isHome() {
-        if (project > 900 && project != 999 && project != 998){
-            return true;
-        }else{
-            return false;
-        }
+        return ((project >= 901 && project <= 995) || (project >= 1000));
     }
 }

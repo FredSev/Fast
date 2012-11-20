@@ -9,25 +9,21 @@ import java.util.ArrayList;
 public class EmployeeWorkWeek {
     
     private ArrayList<Day> week;
-    private boolean admin = false;
     private int employeeNumber;
     private int employeeType;
     
     public final int ADMIN = 0;
-    public final int PRODUCTION = 1;
+    public final int DEVELOPMENT  = 1;
     public final int EXPLOITATION = 2;
+    public final int DIRECTOR = 3;
 
-    public EmployeeWorkWeek() { 
+    public EmployeeWorkWeek() {
     }
 
     public EmployeeWorkWeek(int employeeNumber) {
         this.employeeNumber = employeeNumber;
         this.week = new ArrayList<Day>();
         setEmployeeType();
-    }
-    
-    public boolean isAdmin(){
-        return admin;
     }
     
     public boolean isEmpty() {        
@@ -37,11 +33,12 @@ public class EmployeeWorkWeek {
     private void setEmployeeType(){
         if(employeeNumber < 1000){
             employeeType = ADMIN;
-            admin = true;
-        } else if (employeeNumber >= 2000) {
+        } else if (employeeNumber >= 1000 && employeeNumber < 2000) {
+            employeeType = DEVELOPMENT;
+        } else if (employeeNumber >= 2000 && employeeNumber <= 5000) {
             employeeType = EXPLOITATION;
         } else {
-            employeeType = PRODUCTION;
+            employeeType = DIRECTOR;
         }
     }
     
@@ -80,29 +77,57 @@ public class EmployeeWorkWeek {
         
         return totalWeekOfficeMinutes;
     }
-
+    
+    public int getNumberOfParentalLeaves(){
+        int totaNumberOfParentalLeaves = 0;
+        
+        for (Day day: week) {
+            if(day.hasParentalLeaveEntry()){
+                totaNumberOfParentalLeaves += 1;
+            }  
+        }
+        
+        return totaNumberOfParentalLeaves;
+    }
+    
     int getTotalMinutesWorkedOnDay(int dayIndex) {
         return week.get(dayIndex).getTotalMinutesWorked();
+    }
+    
+    int getTotalOfficeMinutesForDay(int dayIndex) {
+        return week.get(dayIndex).getTotalOfficeMinutes();
     }
 
     boolean isSickDay(int dayIndex) {
         return week.get(dayIndex).hasSickEntry();
     }
 
-    int getSickDayMinutes(int dayIndex) {
-        return week.get(dayIndex).getSickDayMinutes();
-    }
-
     boolean isHoliday(int dayIndex) {
         return week.get(dayIndex).hasHolidayEntry();
     }
-
+    
+    boolean isVacation(int dayIndex) {
+        return week.get(dayIndex).hasVacationEntry();
+    }
+    
+    boolean isParentalLeave(int dayIndex) {
+        return week.get(dayIndex).hasParentalLeaveEntry();
+    }
+    
+    int getSickDayMinutes(int dayIndex) {
+        return week.get(dayIndex).getSickDayMinutes();
+    }
+    
     int getHolidayMinutes(int dayIndex) {
         return week.get(dayIndex).getHolidayMinutes();
     }
-
-    int getTotalOfficeMinutesForDay(int dayIndex) {
-        return week.get(dayIndex).getTotalOfficeMinutes();
+    
+    int getVacationMinutes(int dayIndex) {
+        return week.get(dayIndex).getVacationMinutes();
+    }
+    
+    int getParentalLeaveMinutes(int dayIndex) {
+        return week.get(dayIndex).getParentalLeaveMinutes();
     }
     
     @Override
